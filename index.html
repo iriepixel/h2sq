@@ -4,6 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
    <title>h2sq</title>
    <style>
       * {
@@ -66,12 +67,12 @@
             <div class="rows-random-total"></div>
          </div>
          <div class="menu-row">
-            <input type="text" placeholder="Color A HEX" class="color-a">
+            <input type="text" placeholder="Color A HEX" class="jscolor color-a" value="">
             <label for="color-a-random">Color A random?</label>
             <input type="checkbox" name="color-a-random" id="" class="color-a-random">
          </div>
          <div class="menu-row">
-            <input type="text" placeholder="Color B HEX" class="color-b">
+            <input type="text" placeholder="Color B HEX" class="jscolor color-b" value="">
             <label for="color-b-random">Color B random?</label>
             <input type="checkbox" name="color-b-random" id="" class="color-b-random">
          </div>
@@ -92,8 +93,8 @@
    var GRID = document.getElementById('grid');
 
    // var app = document.getElementById('app');
-   var columnAmount = 100;
-   var rowAmount = 100;
+   var columnAmount = 16;
+   var rowAmount = 16;
    var blockAmount = columnAmount * rowAmount;
 
    // columns UI
@@ -106,13 +107,21 @@
    var rowsRandom = document.querySelector('.rows-random');
    var rowsRandomTotal = document.querySelector('.rows-random-total');
 
+   // color UI
+   var colorA = document.querySelector('.color-a');
+   var colorARandom = document.querySelector('.color-a-random');
+   var colorB = document.querySelector('.color-b');
+
    // var blockAmountRandom = document.querySelector('.rows-input');
    var apply = document.getElementById('apply');
 
    var colors = [];
 
-   generateColors();
+   if(colors.length == 0){
+      generateRandomColors();
+   }
    createBlocks();
+   setupMenuVars();
 
    /* window.setInterval(function () {
       createBlocks();
@@ -123,9 +132,11 @@
    function createBlocks(){
 
       blockAmount = columnAmount * rowAmount;
-      console.log("blockAmount " + blockAmount)
+      console.log("blockAmount " + blockAmount);
 
-      generateColors();
+      if (colorARandom.checked) {
+         generateRandomColors();
+      }
 
       var block = document.getElementsByClassName('block');
       if (typeof (block) != 'undefined' && block != null) {
@@ -136,17 +147,12 @@
          // const element = array[index];
          console.log('create block');
 
-         // Creating a div element
-         // var block = document.createElement('Div');
-
-         // Get random color from array
-         /* block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-         block.style.width = 100 / columnAmount + "%";
-         block.style.height = 100 / rowAmount + "vh";
-         block.id = index + 1;
-         block.className = "block"; */
-
+         // Createa SVG block element
          var block = document.createElement("svg");  
+         // if(colorARandom.checked){
+         //    block.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+         // }else{
+         // }
          block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
          block.style.width = 100 / columnAmount + "%";
          block.style.height = 100 / rowAmount + "vh";
@@ -161,13 +167,18 @@
    }
 
    // generate random colors
-   function generateColors(){
+   function generateRandomColors(){
       colors = [
          '#' + Math.floor(Math.random() * 16777215).toString(16),
          '#' + Math.floor(Math.random() * 16777215).toString(16)
          // "black",
          // "white"
       ]
+   }
+
+   function setupMenuVars() {
+      colorA.value = colors[0];
+      colorB.value = colors[1];
    }
 
    function applyNewSettings(){
@@ -184,10 +195,14 @@
       columnsRandomTotal.innerHTML = columnAmount;
       rowsRandomTotal.innerHTML = rowAmount;
 
+      console.log('colorA.value ' + colorA.value);
+      colors[0] = colorA.value;
+
       console.log('columns ' + columnAmount);
       console.log('rows ' + rowAmount);
 
       createBlocks();
+
    }
    
    APP.addEventListener("keydown", function (e) {
