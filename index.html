@@ -40,6 +40,11 @@
                align-items: center;
                justify-content: center; */
             }
+               /* menu */
+               .columns-random-total,
+               .rows-random-total{
+                  display: inline-block;
+               }
    </style>
 </head>
 <body id="app">
@@ -52,11 +57,13 @@
             <input type="text" placeholder="How many columns?" class="columns-input">
             <label for="columns-random">Random?</label>
             <input type="checkbox" name="" id="columns-random" class="columns-random">
+            <div class="columns-random-total"></div>
          </div>
          <div class="menu-row">
             <input type="text" placeholder="How many rows?" class="rows-input">
             <label for="rows-random">Random?</label>
             <input type="checkbox" name="rows-random" id="" class="rows-random">
+            <div class="rows-random-total"></div>
          </div>
          <div class="menu-row">
             <input type="text" placeholder="Color A HEX" class="color-a">
@@ -89,12 +96,17 @@
    var rowAmount = 16;
    var blockAmount = columnAmount * rowAmount;
 
+   // columns UI
    var columnsInput = document.querySelector('.columns-input');
-   var rowsInput = document.querySelector('.rows-input');
    var columnsRandom = document.querySelector('.columns-random');
-   var rowsRandom = document.querySelector('.rows-random');
+   var columnsRandomTotal = document.querySelector('.columns-random-total');
 
-   var blockAmountRandom = document.querySelector('.rows-input');
+   // rows UI
+   var rowsInput = document.querySelector('.rows-input');
+   var rowsRandom = document.querySelector('.rows-random');
+   var rowsRandomTotal = document.querySelector('.rows-random-total');
+
+   // var blockAmountRandom = document.querySelector('.rows-input');
    var apply = document.getElementById('apply');
 
    var colors = [];
@@ -159,6 +171,9 @@
       // apply random to columns and rows
       columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = 16;
       rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = 16;
+
+      columnsRandomTotal.innerHTML = columnAmount;
+      rowsRandomTotal.innerHTML = rowAmount;
 
       console.log('columns ' + columnAmount);
       console.log('rows ' + rowAmount);
