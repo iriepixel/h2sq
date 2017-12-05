@@ -92,8 +92,8 @@
    var GRID = document.getElementById('grid');
 
    // var app = document.getElementById('app');
-   var columnAmount = 16;
-   var rowAmount = 16;
+   var columnAmount = 100;
+   var rowAmount = 100;
    var blockAmount = columnAmount * rowAmount;
 
    // columns UI
@@ -137,16 +137,25 @@
          console.log('create block');
 
          // Creating a div element
-         var block = document.createElement('Div');
+         // var block = document.createElement('Div');
 
          // Get random color from array
+         /* block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+         block.style.width = 100 / columnAmount + "%";
+         block.style.height = 100 / rowAmount + "vh";
+         block.id = index + 1;
+         block.className = "block"; */
+
+         var block = document.createElement("svg");  
          block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
          block.style.width = 100 / columnAmount + "%";
          block.style.height = 100 / rowAmount + "vh";
          block.id = index + 1;
          block.className = "block";
 
-         // Appending the div element to body
+         document.body.appendChild(block);
+
+         // Appending the div element to body   
          document.getElementsByClassName('grid')[0].appendChild(block);
       }
    }
@@ -169,8 +178,8 @@
       rowsInput.value.length > 0 ? rowAmount = rowsInput.value : null;
 
       // apply random to columns and rows
-      columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = 16;
-      rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = 16;
+      columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = columnAmount;
+      rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = rowAmount;
 
       columnsRandomTotal.innerHTML = columnAmount;
       rowsRandomTotal.innerHTML = rowAmount;
