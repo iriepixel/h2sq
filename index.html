@@ -14,6 +14,7 @@
          .grid{
             display: flex;
             flex-wrap: wrap;
+            align-items: stretch;
          }
             .block{
                /* width: 12.5%;
@@ -27,7 +28,8 @@
                
                width: 1.5625%;
                height: 1.5625vh;
-               box-sizing: border-box;
+               /* flex: 1;  */
+               /* box-sizing: border-box; */
 
                -webkit-transition: background-color 500ms linear;
                -ms-transition: background-color 500ms linear;
@@ -83,12 +85,15 @@
    var GRID = document.getElementById('grid');
 
    // var app = document.getElementById('app');
-   var columnAmount = 64;
-   var rowAmount = 64;
+   var columnAmount = 16;
+   var rowAmount = 16;
    var blockAmount = columnAmount * rowAmount;
 
    var columnsInput = document.querySelector('.columns-input');
    var rowsInput = document.querySelector('.rows-input');
+   var columnsRandom = document.querySelector('.columns-random');
+   var rowsRandom = document.querySelector('.rows-random');
+
    var blockAmountRandom = document.querySelector('.rows-input');
    var apply = document.getElementById('apply');
 
@@ -148,10 +153,12 @@
       console.log("applyNewSettings");
 
       // apply news values for columns and rows
-      console.log(columnsInput.value.length );
-      console.log(rowsInput.value .length);
-      columnsInput.value.length > 0 ? columnAmount = document.querySelector('.columns-input').value : null;
-      rowsInput.value.length > 0 ? rowAmount = document.querySelector('.rows-input').value : null;
+      columnsInput.value.length > 0 ? columnAmount = columnsInput.value : null;
+      rowsInput.value.length > 0 ? rowAmount = rowsInput.value : null;
+
+      // apply random to columns and rows
+      columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = 16;
+      rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = 16;
 
       console.log('columns ' + columnAmount);
       console.log('rows ' + rowAmount);
