@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>h2sq</title>
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+         .grid{
+            display: flex;
+            flex-wrap: wrap;
+         }
+            .block{
+               /* width: 12.5%;
+               height: 12.5vh; */
+
+               /* width: 6.25%;
+               height: 6.25vh; */
+               
+               /* width: 3.125%;
+               height: 3.125vh; */
+               
+               width: 1.5625%;
+               height: 1.5625vh;
+               box-sizing: border-box;
+
+               -webkit-transition: background-color 500ms linear;
+               -ms-transition: background-color 500ms linear;
+               transition: background-color 500ms linear;
+            }
+            .modal{
+               /* display: flex;
+               align-items: center;
+               justify-content: center; */
+            }
+   </style>
+</head>
+<body id="app">
+   <div id="grid" class="grid">
+      <!-- blocks for the grid -->
+   </div>
+   <div class="modal">
+      <div class="menu">
+         <div class="menu-row">
+            <input type="text" placeholder="How many columns?" class="columns-input">
+            <label for="columns-random">Random?</label>
+            <input type="checkbox" name="" id="columns-random" class="columns-random">
+         </div>
+         <div class="menu-row">
+            <input type="text" placeholder="How many rows?" class="rows-input">
+            <label for="rows-random">Random?</label>
+            <input type="checkbox" name="rows-random" id="" class="rows-random">
+         </div>
+         <div class="menu-row">
+            <input type="text" placeholder="Color A HEX" class="color-a">
+            <label for="color-a-random">Color A random?</label>
+            <input type="checkbox" name="color-a-random" id="" class="color-a-random">
+         </div>
+         <div class="menu-row">
+            <input type="text" placeholder="Color B HEX" class="color-b">
+            <label for="color-b-random">Color B random?</label>
+            <input type="checkbox" name="color-b-random" id="" class="color-b-random">
+         </div>
+         <button id="apply" class="apply">Apply</button>
+      </div>
+   </div>
+</body>
+
+<script>
+   console.log('app started');
+
+   // var AMOUNT = 64;
+   // var AMOUNT = 256;
+   // var AMOUNT = 1024;
+   // var AMOUNT = 4096;
+   
+   var APP = document.getElementById('app');
+   var GRID = document.getElementById('grid');
+
+   // var app = document.getElementById('app');
+   var columnAmount = 64;
+   var rowAmount = 64;
+   var blockAmount = columnAmount * rowAmount;
+
+   var columnsInput = document.querySelector('.columns-input');
+   var rowsInput = document.querySelector('.rows-input');
+   var blockAmountRandom = document.querySelector('.rows-input');
+   var apply = document.getElementById('apply');
+
+   var colors = [];
+
+   generateColors();
+   createBlocks();
+
+   /* window.setInterval(function () {
+      createBlocks();
+   }, 100); */
+
+   // we don't need to recreate eleemnt s everythime. We could regenerate colors only
+
+   function createBlocks(){
+
+      blockAmount = columnAmount * rowAmount;
+      console.log("blockAmount " + blockAmount)
+
+      generateColors();
+
+      var block = document.getElementsByClassName('block');
+      if (typeof (block) != 'undefined' && block != null) {
+          GRID.innerHTML = "";
+      }
+
+      for (var index = 0; index < blockAmount; index++) {
+         // const element = array[index];
+         console.log('create block');
+
+         // Creating a div element
+         var block = document.createElement('Div');
+
+         // Get random color from array
+         block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+         block.style.width = 100 / columnAmount + "%";
+         block.style.height = 100 / rowAmount + "vh";
+         block.id = index + 1;
+         block.className = "block";
+
+         // Appending the div element to body
+         document.getElementsByClassName('grid')[0].appendChild(block);
+      }
+   }
+
+   // generate random colors
+   function generateColors(){
+      colors = [
+         '#' + Math.floor(Math.random() * 16777215).toString(16),
+         '#' + Math.floor(Math.random() * 16777215).toString(16)
+         // "black",
+         // "white"
+      ]
+   }
+
+   function applyNewSettings(){
+      console.log("applyNewSettings");
+
+      // apply news values for columns and rows
+      console.log(columnsInput.value.length );
+      console.log(rowsInput.value .length);
+      columnsInput.value.length > 0 ? columnAmount = document.querySelector('.columns-input').value : null;
+      rowsInput.value.length > 0 ? rowAmount = document.querySelector('.rows-input').value : null;
+
+      console.log('columns ' + columnAmount);
+      console.log('rows ' + rowAmount);
+
+      createBlocks();
+   }
+   
+   APP.addEventListener("keydown", function (e) {
+      if (e.keyCode === 32) {  //checks whether the pressed key is "Enter"
+         // validate(e);
+         createBlocks();
+      }
+   });
+
+   apply.addEventListener("click", applyNewSettings, false);
+
+</script>
+</html>
