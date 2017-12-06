@@ -59,14 +59,14 @@
                     .menu{
                         max-width: 300px;
                         padding: 40px 20px 20px;
-                        background-color: #FFF;
+                        background-color: rgba(255, 255, 255, 0.8);
                     }
                         .close{
                             position: absolute;
                             margin-top: -30px;
                             right: 20px;
                             font-size: 12px;
-                            color: #ddd;
+                            color: grey;
                             cursor: pointer;
                         }
                         .row{
@@ -89,15 +89,15 @@
    </div>
    <div class="modal">
         <div class="menu">
-                <div class="close">close</div>
+                <div class="close">X</div>
                 <div class="row">
                     <input type="text" placeholder="How many columns?" class="columns-input">
-                    <input type="checkbox" name="" id="columns-random" class="columns-random"><label for="columns-random">Random color A?</label>
+                    <input type="checkbox" name="" id="columns-random" class="columns-random"><label for="columns-random">Random amount of columns?</label>
                     <div class="columns-random-total"></div>
                 </div>
                 <div class="row">
                     <input type="text" placeholder="How many rows?" class="rows-input">
-                    <input type="checkbox" name="rows-random" id="" class="rows-random"><label for="rows-random">Random?</label>
+                    <input type="checkbox" name="rows-random" id="" class="rows-random"><label for="rows-random">Random amount of rows?</label>
                     <div class="rows-random-total"></div>
                 </div>
                 <div class="row">
@@ -228,6 +228,9 @@
 
       columnsInput.value = columnAmount;
       rowsInput.value = rowAmount;
+      
+    //   columnsInput.value = columnAmount;
+    //   rowsInput.value = rowAmount;
 
       colors[0] = '#' + colorA.value;
       colors[1] = '#' + colorB.value;
@@ -245,7 +248,8 @@
    
    APP.addEventListener("keydown", function (e) {
       if (e.keyCode === 32) {  //checks whether the pressed key is "SPACE"
-         createBlocks();
+        //  createBlocks();
+        applyNewSettings();
       }
       if (e.keyCode === 77) {  //checks whether the pressed key is "M"
          openMenu();
