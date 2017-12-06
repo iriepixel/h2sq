@@ -192,22 +192,21 @@
       columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = columnAmount;
       rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = rowAmount;
 
-      columnsRandomTotal.innerHTML = columnAmount;
-      rowsRandomTotal.innerHTML = rowAmount;
+      columnsInput.value = columnAmount;
+      rowsInput.value = rowAmount;
 
       console.log('colorA.value ' + colorA.value);
-      colors[0] = colorA.value;
+      colors[0] = '#' + colorA.value;
+      colors[1] = '#' + colorB.value;
 
       console.log('columns ' + columnAmount);
       console.log('rows ' + rowAmount);
 
       createBlocks();
-
    }
    
    APP.addEventListener("keydown", function (e) {
       if (e.keyCode === 32) {  //checks whether the pressed key is "Enter"
-         // validate(e);
          createBlocks();
       }
    });
