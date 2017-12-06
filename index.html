@@ -4,6 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
    <title>h2sq</title>
    <style>
@@ -41,11 +42,45 @@
                align-items: center;
                justify-content: center; */
             }
-               /* menu */
-               .columns-random-total,
-               .rows-random-total{
-                  display: inline-block;
-               }
+                /* menu */
+                .modal{
+                    position: fixed;
+                    width: 100vw;
+                    height: 100vh;
+                    top: 0;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .modal.closed{
+                    display: none;
+                }
+                    .menu{
+                        max-width: 300px;
+                        padding: 40px 20px 20px;
+                        background-color: #FFF;
+                    }
+                        .close{
+                            position: absolute;
+                            margin-top: -30px;
+                            right: 20px;
+                            font-size: 12px;
+                            color: #ddd;
+                            cursor: pointer;
+                        }
+                        .row{
+                            margin-bottom: 10px;
+                        }
+                            .apply{
+                                /* float: right; */
+                            }
+                            /* .columns-random-total,
+                            .rows-random-total{
+                                display: inline-block;
+                            } */
+
+                            
    </style>
 </head>
 <body id="app">
@@ -53,31 +88,30 @@
       <!-- blocks for the grid -->
    </div>
    <div class="modal">
-      <div class="menu">
-         <div class="menu-row">
-            <input type="text" placeholder="How many columns?" class="columns-input">
-            <label for="columns-random">Random?</label>
-            <input type="checkbox" name="" id="columns-random" class="columns-random">
-            <div class="columns-random-total"></div>
-         </div>
-         <div class="menu-row">
-            <input type="text" placeholder="How many rows?" class="rows-input">
-            <label for="rows-random">Random?</label>
-            <input type="checkbox" name="rows-random" id="" class="rows-random">
-            <div class="rows-random-total"></div>
-         </div>
-         <div class="menu-row">
-            <input type="text" placeholder="Color A HEX" class="jscolor color-a" value="">
-            <label for="color-a-random">Color A random?</label>
-            <input type="checkbox" name="color-a-random" id="" class="color-a-random">
-         </div>
-         <div class="menu-row">
-            <input type="text" placeholder="Color B HEX" class="jscolor color-b" value="">
-            <label for="color-b-random">Color B random?</label>
-            <input type="checkbox" name="color-b-random" id="" class="color-b-random">
-         </div>
-         <button id="apply" class="apply">Apply</button>
-      </div>
+        <div class="menu">
+                <div class="close">close</div>
+                <div class="row">
+                    <input type="text" placeholder="How many columns?" class="columns-input">
+                    <input type="checkbox" name="" id="columns-random" class="columns-random"><label for="columns-random">Random color A?</label>
+                    <div class="columns-random-total"></div>
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="How many rows?" class="rows-input">
+                    <input type="checkbox" name="rows-random" id="" class="rows-random"><label for="rows-random">Random?</label>
+                    <div class="rows-random-total"></div>
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Color A HEX" class="jscolor color-a" value="">
+                    <input type="checkbox" name="color-a-random" id="" class="color-a-random"><label for="color-a-random">Color A random?</label>
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Color B HEX" class="jscolor color-b" value="">
+                    <input type="checkbox" name="color-b-random" id="" class="color-b-random"><label for="color-b-random">Color B random?</label>
+                </div>
+                <div class="row">
+                    <button id="apply" class="button apply">01001111</button>
+                </div>
+        </div>
    </div>
 </body>
 
@@ -96,6 +130,9 @@
    var columnAmount = 16;
    var rowAmount = 16;
    var blockAmount = columnAmount * rowAmount;
+
+   var modal = document.querySelector('.modal');
+   var close = document.querySelector('.close');
 
    // columns UI
    var columnsInput = document.querySelector('.columns-input');
@@ -119,8 +156,9 @@
 
    if(colors.length == 0){
       generateRandomColors();
+      createBlocks();
    }
-   createBlocks();
+   
    setupMenuVars();
 
    /* window.setInterval(function () {
@@ -132,7 +170,6 @@
    function createBlocks(){
 
       blockAmount = columnAmount * rowAmount;
-      console.log("blockAmount " + blockAmount);
 
       if (colorARandom.checked) {
          generateRandomColors();
@@ -149,17 +186,14 @@
 
          // Createa SVG block element
          var block = document.createElement("svg");  
-         // if(colorARandom.checked){
-         //    block.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-         // }else{
-         // }
+
          block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
          block.style.width = 100 / columnAmount + "%";
          block.style.height = 100 / rowAmount + "vh";
          block.id = index + 1;
          block.className = "block";
 
-         document.body.appendChild(block);
+        //  document.body.appendChild(block);
 
          // Appending the div element to body   
          document.getElementsByClassName('grid')[0].appendChild(block);
@@ -189,29 +223,37 @@
       rowsInput.value.length > 0 ? rowAmount = rowsInput.value : null;
 
       // apply random to columns and rows
-      columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : columnAmount = columnAmount;
-      rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : rowAmount = rowAmount;
+      columnsRandom.checked ? columnAmount = Math.floor(Math.random() * 64) + 1 : null;
+      rowsRandom.checked ? rowAmount = Math.floor(Math.random() * 64) + 1 : null;
 
       columnsInput.value = columnAmount;
       rowsInput.value = rowAmount;
 
-      console.log('colorA.value ' + colorA.value);
       colors[0] = '#' + colorA.value;
       colors[1] = '#' + colorB.value;
 
-      console.log('columns ' + columnAmount);
-      console.log('rows ' + rowAmount);
-
       createBlocks();
+   }
+
+   function closeMenu(){
+        modal.classList.add("closed");
+   }
+   
+   function openMenu(){
+        modal.classList.remove("closed");
    }
    
    APP.addEventListener("keydown", function (e) {
-      if (e.keyCode === 32) {  //checks whether the pressed key is "Enter"
+      if (e.keyCode === 32) {  //checks whether the pressed key is "SPACE"
          createBlocks();
+      }
+      if (e.keyCode === 77) {  //checks whether the pressed key is "M"
+         openMenu();
       }
    });
 
    apply.addEventListener("click", applyNewSettings, false);
+   close.addEventListener("click", closeMenu, false);
 
 </script>
 </html>
